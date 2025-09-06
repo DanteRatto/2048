@@ -11,12 +11,22 @@ config_version=5
 [application]
 
 config/name="2048"
+run/main_scene="uid://ybqcoyudcd8n"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+FrameProviderDispatcher="*res://addons/R3.Godot/FrameProviderDispatcher.cs"
+ObservableTrackerRuntimeHook="*res://addons/R3.Godot/ObservableTrackerRuntimeHook.cs"
 
 [dotnet]
 
 project/assembly_name="2048"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/R3.Godot/plugin.cfg")
 
 [rendering]
 
