@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5ssof6saja4l"]
+[gd_scene load_steps=6 format=3 uid="uid://c5ssof6saja4l"]
 
+[ext_resource type="Script" uid="uid://q5r5auwioki5" path="res://views/GridView.cs" id="1_k6ug4"]
 [ext_resource type="Theme" uid="uid://cww8g0jmy32fi" path="res://themes/theme.tres" id="1_n8wtn"]
 [ext_resource type="PackedScene" uid="uid://crsc1jgw5vx8o" path="res://nodes/tile.tscn" id="2_2j66o"]
 [ext_resource type="PackedScene" uid="uid://cp8kbmg8tliw6" path="res://nodes/Number.tscn" id="3_yqcl4"]
@@ -11,7 +12,11 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="Grid" type="Node2D"]
+[node name="Grid" type="Node2D" node_paths=PackedStringArray("active", "inactive")]
+script = ExtResource("1_k6ug4")
+number = ExtResource("3_yqcl4")
+active = NodePath("Active")
+inactive = NodePath("Inactive")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 7
@@ -92,88 +97,17 @@ layout_mode = 2
 [node name="Tile15" parent="PanelContainer/MarginContainer/GridContainer" instance=ExtResource("2_2j66o")]
 layout_mode = 2
 
-[node name="GridContainer2" type="GridContainer" parent="PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 4
+[node name="Active" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -320.0
+offset_top = -320.0
+offset_right = 320.0
+offset_bottom = 320.0
 
-[node name="Number0" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number1" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number2" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number3" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number4" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number5" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number6" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number7" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number8" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number9" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number10" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number11" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number12" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number13" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number14" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Number15" parent="PanelContainer/MarginContainer/GridContainer2" instance=ExtResource("3_yqcl4")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="Inactive" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
