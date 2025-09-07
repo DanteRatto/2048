@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://77gx7gs1m0pq"]
+
+[ext_resource type="Script" uid="uid://bsv7hbwyy7gg" path="res://views/ScoreView.cs" id="1_8m000"]
+[ext_resource type="Theme" uid="uid://cww8g0jmy32fi" path="res://themes/theme.tres" id="2_2rp2u"]
+[ext_resource type="FontFile" uid="uid://d2xai7ksgjqsw" path="res://fonts/ClearSans-Bold.ttf" id="3_ch12i"]
+
+[node name="Score_Panel" type="PanelContainer" node_paths=PackedStringArray("label")]
+custom_minimum_size = Vector2(144, 0)
+offset_right = 144.0
+offset_bottom = 134.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+script = ExtResource("1_8m000")
+label = NodePath("MarginContainer/Panel/VBoxContainer/Value")
+key = "current"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="Panel" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_2rp2u")
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.803922, 0.756863, 0.705882, 1)
+theme_override_fonts/font = ExtResource("3_ch12i")
+theme_override_font_sizes/font_size = 40
+text = "score"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Value" type="Label" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_ch12i")
+theme_override_font_sizes/font_size = 40
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 2

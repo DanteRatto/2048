@@ -17,3 +17,6 @@ mono_crash.*.json
 
 # Rider-specific ignores
 .idea/
+
+# Build-specific ignores
+/android

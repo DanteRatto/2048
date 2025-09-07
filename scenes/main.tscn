@@ -1,3 +1,74 @@
-[gd_scene format=3 uid="uid://ybqcoyudcd8n"]
+[gd_scene load_steps=6 format=3 uid="uid://b2aen55vds71n"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://c5ssof6saja4l" path="res://nodes/grid.tscn" id="1_o5qli"]
+[ext_resource type="FontFile" uid="uid://d2xai7ksgjqsw" path="res://fonts/ClearSans-Bold.ttf" id="2_jyhfs"]
+[ext_resource type="Theme" uid="uid://cww8g0jmy32fi" path="res://themes/theme.tres" id="3_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://dhriqctk7nflw" path="res://icons/replay.svg" id="4_tefeu"]
+[ext_resource type="PackedScene" uid="uid://byu6o8m2s77p1" path="res://nodes/score_panels.tscn" id="5_tbgi4"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Grid" parent="CenterContainer" instance=ExtResource("1_o5qli")]
+
+[node name="Title_Label" type="Label" parent="."]
+layout_mode = 1
+offset_left = 30.0
+offset_top = 202.0
+offset_right = 205.0
+offset_bottom = 300.0
+theme_override_fonts/font = ExtResource("2_jyhfs")
+theme_override_font_sizes/font_size = 72
+text = "2048"
+horizontal_alignment = 3
+vertical_alignment = 3
+
+[node name="Restart_Button" type="Button" parent="."]
+layout_mode = 1
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 110.0
+offset_bottom = 110.0
+theme = ExtResource("3_tbgi4")
+
+[node name="CenterContainer" type="CenterContainer" parent="Restart_Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Restart_Button/CenterContainer"]
+texture = ExtResource("4_tefeu")
+
+[node name="Score_Panels" parent="." instance=ExtResource("5_tbgi4")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -348.0
+offset_top = 145.0
+offset_right = -30.0
+offset_bottom = 279.0

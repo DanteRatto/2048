@@ -11,14 +11,20 @@ config_version=5
 [application]
 
 config/name="2048"
-run/main_scene="uid://ybqcoyudcd8n"
+run/main_scene="uid://b2aen55vds71n"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://icons/icon.svg"
 
 [autoload]
 
 FrameProviderDispatcher="*res://addons/R3.Godot/FrameProviderDispatcher.cs"
 ObservableTrackerRuntimeHook="*res://addons/R3.Godot/ObservableTrackerRuntimeHook.cs"
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/stretch/mode="viewport"
 
 [dotnet]
 
@@ -28,7 +34,15 @@ project/assembly_name="2048"
 
 enabled=PackedStringArray("res://addons/R3.Godot/plugin.cfg")
 
+[gui]
+
+theme/custom="uid://cww8g0jmy32fi"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+environment/ssao/quality=0
+environment/volumetric_fog/use_filter=0
+environment/defaults/default_clear_color=Color(0.980392, 0.972549, 0.941176, 1)

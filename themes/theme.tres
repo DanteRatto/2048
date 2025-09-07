@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cww8g0jmy32fi"]
+
+[ext_resource type="FontFile" uid="uid://yd303sc7cxwn" path="res://fonts/ClearSans-Medium.ttf" id="1_1h68f"]
+[ext_resource type="StyleBox" uid="uid://b1332hbmxwy2c" path="res://themes/styles/tile_style_box_flat.tres" id="2_kgv31"]
+[ext_resource type="StyleBox" uid="uid://bqwdx0ecrs8bd" path="res://themes/styles/style_box_flat.tres" id="2_oryc4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgv31"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kgv31"]
+bg_color = Color(0.607843, 0.533333, 0.470588, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+Button/styles/focus = SubResource("StyleBoxEmpty_kgv31")
+Button/styles/hover = ExtResource("2_kgv31")
+Button/styles/normal = ExtResource("2_oryc4")
+Button/styles/pressed = SubResource("StyleBoxFlat_kgv31")
+Label/colors/font_color = Color(0.733333, 0.678431, 0.627451, 1)
+Label/fonts/font = ExtResource("1_1h68f")
+MarginContainer/constants/margin_bottom = 10
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+MarginContainer/constants/margin_top = 10
+Panel/styles/panel = ExtResource("2_oryc4")
+PanelContainer/styles/panel = ExtResource("2_oryc4")
