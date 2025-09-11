@@ -8,11 +8,11 @@ namespace ViewModels
     {
         private struct Number
         {
-            public int Value { get; set; }
-            public string Text { get; set; }
-            public int FontSize { get; set; }
-            public (int r, int g, int b) BackgroundColor { get; set; }
-            public (int r, int g, int b) TextColor { get; set; }
+            public int Value { get; init; }
+            public string Text { get; init; }
+            public int FontSize { get; init; }
+            public (int r, int g, int b) BackgroundColor { get; init; }
+            public (int r, int g, int b) TextColor { get; init; }
         }
 
         private static readonly IReadOnlyList<Number> numbers =
@@ -36,13 +36,14 @@ namespace ViewModels
             new Number{ Value = 131072, Text = "131072", FontSize = 39, BackgroundColor = (10, 8, 0),  TextColor = (255, 255, 255) }
         ];
 
-        public ReactiveProperty<int> X { get; } = new(-1); // -1 is off the board
+        public ReactiveProperty<int> Index { get; } = new();
+        public ReactiveProperty<int> X { get; } = new();
         public ReactiveProperty<int> Y { get; } = new();
         public ReactiveProperty<string> Text { get; } = new();
         public ReactiveProperty<int> FontSize { get; } = new();
         public ReactiveProperty<(int r, int g, int b)> BackgroundColor { get; } = new();
         public ReactiveProperty<(int r, int g, int b)> TextColor { get; } = new();
-        private ReactiveProperty<int> Index { get; } = new();
+        public ReactiveProperty<bool> Visible { get; } = new();
 
         public int Value { get; private set; }
 
@@ -62,6 +63,12 @@ namespace ViewModels
             });
         }
 
-        public void SetIndex() => Index.Value = GetRandomIndex();
+        public void SetActive(int x, int y)
+        {
+            Index.Value = GetRandomIndex();
+            X.Value = x;
+            Y.Value = y;
+            Visible.Value = true;
+        }
     }
 }

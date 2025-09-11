@@ -4,10 +4,10 @@ namespace ViewModels
 {
     public class ScoreViewModel : ViewModel
     {
-        public ReactiveProperty<uint> Score { get; } = new();
-        public ReactiveProperty<string> ScoreText { get; } = new("0");
+        public ReactiveProperty<int> Score { get; } = new();
+        public ReactiveProperty<string> ScoreText { get; } = new();
 
-        public ScoreViewModel(uint startingScore)
+        public ScoreViewModel(int startingScore)
         {
             Score.Value = startingScore;
             disposable = Score.Subscribe(x => ScoreText.Value = x.ToString());

@@ -12,13 +12,16 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="Grid" type="Node2D" node_paths=PackedStringArray("active", "inactive")]
+[node name="Grid" type="Control" node_paths=PackedStringArray("gridContainer", "numbersContainer")]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_k6ug4")
 number = ExtResource("3_yqcl4")
-active = NodePath("Active")
-inactive = NodePath("Inactive")
+gridContainer = NodePath("PanelContainer/MarginContainer/GridContainer")
+numbersContainer = NodePath("Numbers")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -97,17 +100,9 @@ layout_mode = 2
 [node name="Tile15" parent="PanelContainer/MarginContainer/GridContainer" instance=ExtResource("2_2j66o")]
 layout_mode = 2
 
-[node name="Active" type="Control" parent="."]
-layout_mode = 3
+[node name="Numbers" type="Control" parent="."]
 anchors_preset = 0
 offset_left = -320.0
 offset_top = -320.0
 offset_right = 320.0
 offset_bottom = 320.0
-
-[node name="Inactive" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
