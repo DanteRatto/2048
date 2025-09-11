@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using ZLinq;
 
 namespace ViewModels
 {
     public class GridViewModel : ViewModel
     {
+        public IReadOnlyList<NumberViewModel> Numbers;
         private readonly NumberViewModel[,] grid = new NumberViewModel[4, 4];
         private readonly Stack<NumberViewModel> inactiveNumbers = new();
         private readonly Func<int, int> GetRandom;
 
-        public GridViewModel(IEnumerable<NumberViewModel> numbers, Func<int, int> getRandom)
+        public GridViewModel(IReadOnlyList<NumberViewModel> numbers, Func<int, int> getRandom)
         {
+            Numbers = numbers;
             GetRandom = getRandom;
             foreach (var number in numbers) inactiveNumbers.Push(number);
             for (var i = 0; i < 2; ++i) AddNumber(); // add 2 numbers to start
@@ -18,16 +21,14 @@ namespace ViewModels
 
         private void AddNumber()
         {
-            for (int x = 0, skip = GetRandom(inactiveNumbers.Count - 1); x < grid.GetLength(0); ++x) // get the total available grid slots and pick a random one
+            for (int y = 0, skip = GetRandom(inactiveNumbers.Count - 1); y < grid.GetLength(0); ++y) // get the total available grid slots and pick a random one
             {
-                for (var y = 0; y < grid.GetLength(1); ++y)
+                for (var x = 0; x < grid.GetLength(1); ++x)
                 {
-                    if (grid[x, y] == null && skip-- > 0) continue;
+                    if (grid[x, y] != null || skip-- > 0) continue;
                     var number = inactiveNumbers.Pop();
-                    number.SetIndex();
                     grid[x, y] = number;
-                    number.X.Value = x;
-                    number.Y.Value = y;
+                    number.SetActive(x, y);
                     return;
                 }
             }
@@ -37,9 +38,95 @@ namespace ViewModels
         {
             inactiveNumbers.Push(number);
             grid[number.X.Value, number.Y.Value] = null;
-            number.X.Value = -1;
+            number.Visible.Value = false;
         }
 
         private void RemoveNumber(int x, int y) => RemoveNumber(grid[x, y]);
+
+        public void Reset()
+        {
+            foreach (var number in grid) if (number != null) RemoveNumber(number);
+            for (var i = 0; i < 2; ++i) AddNumber();
+        }
+
+        public void Right()
+        {
+            foreach (var number in Numbers.AsValueEnumerable().
+                         Where(x => x.Visible.Value && x.X.Value < grid.GetLength(0) - 1).OrderByDescending(x => x.X.Value))
+            {
+                for (int x = number.X.Value, y = number.Y.Value; x < grid.GetLength(0) - 1; ++x)
+                {
+                    if (number.Visible.Value) MoveX(number, x, y, x + 1);
+                }
+            }
+            AddNumber();
+        }
+
+        public void Left()
+        {
+            foreach (var number in Numbers.AsValueEnumerable().Where(x => x.Visible.Value && x.X.Value > 0).OrderBy(x => x.X.Value))
+            {
+                for (int x = number.X.Value, y = number.Y.Value; x > 0; --x)
+                {
+                    MoveX(number, x, y, x - 1);
+                }
+            }
+            AddNumber();
+        }
+
+        public void Up()
+        {
+            foreach (var number in Numbers.AsValueEnumerable().Where(x => x.Visible.Value && x.Y.Value > 0).OrderBy(x => x.Y.Value))
+            {
+                for (int y = number.Y.Value, x = number.X.Value; y > 0; --y)
+                {
+                    MoveY(number, x, y, y - 1);
+                }
+            }
+            AddNumber();
+        }
+
+        public void Down()
+        {
+            foreach (var number in Numbers.AsValueEnumerable().
+                         Where(x => x.Visible.Value && x.Y.Value < grid.GetLength(1) - 1).OrderByDescending(x => x.Y.Value))
+            {
+                for (int y = number.Y.Value, x = number.X.Value; y < grid.GetLength(1) - 1; ++y)
+                {
+                    MoveY(number, x, y, y + 1);
+                }
+            }
+            AddNumber();
+        }
+
+        private void MoveX(NumberViewModel number, int x, int y, int newX)
+        {
+            if (grid[newX, y] == null)
+            {
+                grid[newX, y] = number;
+                grid[x, y] = null;
+                number.X.Value = newX;
+            }
+            else if (grid[newX, y].Index.Value == number.Index.Value)
+            {
+                RemoveNumber(number);
+                ++grid[newX, y].Index.Value;
+            }
+        }
+
+        private void MoveY(NumberViewModel number, int x, int y, int newY)
+        {
+            if (grid[x, newY] == null)
+            {
+                grid[x, newY] = number;
+                grid[x, y] = null;
+                number.Y.Value = newY;
+            }
+            else if (grid[x, newY].Index.Value == number.Index.Value)
+            {
+                RemoveNumber(number);
+                ++grid[x, newY].Index.Value;
+            }
+        }
     }
 }

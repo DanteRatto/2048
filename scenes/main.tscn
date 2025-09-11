@@ -1,18 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2aen55vds71n"]
+[gd_scene load_steps=7 format=3 uid="uid://b2aen55vds71n"]
 
 [ext_resource type="PackedScene" uid="uid://c5ssof6saja4l" path="res://nodes/grid.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://ds6lfw8ep3she" path="res://views/MainView.cs" id="1_tefeu"]
 [ext_resource type="FontFile" uid="uid://d2xai7ksgjqsw" path="res://fonts/ClearSans-Bold.ttf" id="2_jyhfs"]
 [ext_resource type="Theme" uid="uid://cww8g0jmy32fi" path="res://themes/theme.tres" id="3_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://dhriqctk7nflw" path="res://icons/replay.svg" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://byu6o8m2s77p1" path="res://nodes/score_panels.tscn" id="5_tbgi4"]
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" node_paths=PackedStringArray("scoreView", "bestScoreView", "gridView", "restartButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_tefeu")
+scoreView = NodePath("Score_Panels/Score_Panel")
+bestScoreView = NodePath("Score_Panels/Best_Panel")
+gridView = NodePath("CenterContainer/Grid")
+restartButton = NodePath("Restart_Button")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -29,6 +35,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Grid" parent="CenterContainer" instance=ExtResource("1_o5qli")]
+layout_mode = 2
 
 [node name="Title_Label" type="Label" parent="."]
 layout_mode = 1
