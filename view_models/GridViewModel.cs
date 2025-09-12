@@ -43,6 +43,12 @@ namespace ViewModels
 
         private void RemoveNumber(int x, int y) => RemoveNumber(grid[x, y]);
 
+        private void NextRound()
+        {
+            AddNumber();
+            foreach (var number in Numbers) number.Merged = false;
+        }
+
         public void Reset()
         {
             foreach (var number in grid) if (number != null) RemoveNumber(number);
@@ -59,7 +65,7 @@ namespace ViewModels
                     if (number.Visible.Value) MoveX(number, x, y, x + 1);
                 }
             }
-            AddNumber();
+            NextRound();
         }
 
         public void Left()
@@ -71,7 +77,7 @@ namespace ViewModels
                     MoveX(number, x, y, x - 1);
                 }
             }
-            AddNumber();
+            NextRound();
         }
 
         public void Up()
@@ -83,7 +89,7 @@ namespace ViewModels
                     MoveY(number, x, y, y - 1);
                 }
             }
-            AddNumber();
+            NextRound();
         }
 
         public void Down()
@@ -96,7 +102,7 @@ namespace ViewModels
                     MoveY(number, x, y, y + 1);
                 }
             }
-            AddNumber();
+            NextRound();
         }
 
         private void MoveX(NumberViewModel number, int x, int y, int newX)
@@ -107,7 +113,7 @@ namespace ViewModels
                 grid[x, y] = null;
                 number.X.Value = newX;
             }
-            else if (grid[newX, y].Index.Value == number.Index.Value)
+            else if (grid[newX, y].Index.Value == number.Index.Value && !grid[newX, y].Merged)
             {
                 RemoveNumber(number);
                 ++grid[newX, y].Index.Value;
@@ -122,7 +128,7 @@ namespace ViewModels
                 grid[x, y] = null;
                 number.Y.Value = newY;
             }
-            else if (grid[x, newY].Index.Value == number.Index.Value)
+            else if (grid[x, newY].Index.Value == number.Index.Value && !grid[x, newY].Merged)
             {
                 RemoveNumber(number);
                 ++grid[x, newY].Index.Value;

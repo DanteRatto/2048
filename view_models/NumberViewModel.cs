@@ -45,6 +45,7 @@ namespace ViewModels
         public ReactiveProperty<(int r, int g, int b)> TextColor { get; } = new();
         public ReactiveProperty<bool> Visible { get; } = new();
 
+        public bool Merged { get; set; }
         public int Value { get; private set; }
 
         private readonly Func<int> GetRandomIndex;
@@ -60,6 +61,7 @@ namespace ViewModels
                 FontSize.Value = number.FontSize;
                 BackgroundColor.Value = number.BackgroundColor;
                 TextColor.Value = number.TextColor;
+                Merged = Visible.Value; // if visible at the time of index changing, it merged
             });
         }
 
