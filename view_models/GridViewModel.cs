@@ -1,3 +1,4 @@
+using R3;
 using System;
 using System.Collections.Generic;
 using ZLinq;
@@ -6,10 +7,14 @@ namespace ViewModels
 {
     public class GridViewModel : ViewModel
     {
-        public IReadOnlyList<NumberViewModel> Numbers;
+        public ReactiveProperty<bool> Lost { get; } = new();
+
+        public readonly IReadOnlyList<NumberViewModel> Numbers;
         private readonly NumberViewModel[,] grid = new NumberViewModel[4, 4];
         private readonly Stack<NumberViewModel> inactiveNumbers = new();
         private readonly Func<int, int> GetRandom;
+
+        private bool moved;
 
         public GridViewModel(IReadOnlyList<NumberViewModel> numbers, Func<int, int> getRandom)
         {
@@ -45,12 +50,21 @@ namespace ViewModels
 
         private void NextRound()
         {
+            if (!moved) return;
+            if (inactiveNumbers.Count == 0)
+            {
+                Lost.Value = true;
+                return;
+            }
             AddNumber();
             foreach (var number in Numbers) number.Merged = false;
+            moved = false;
         }
 
         public void Reset()
         {
+            Lost.Value = false;
+            moved = false;
             foreach (var number in grid) if (number != null) RemoveNumber(number);
             for (var i = 0; i < 2; ++i) AddNumber();
         }
@@ -62,7 +76,7 @@ namespace ViewModels
             {
                 for (int x = number.X.Value, y = number.Y.Value; x < grid.GetLength(0) - 1; ++x)
                 {
-                    if (number.Visible.Value) MoveX(number, x, y, x + 1);
+                    if (!MoveX(number, x, y, x + 1)) break;
                 }
             }
             NextRound();
@@ -74,7 +88,7 @@ namespace ViewModels
             {
                 for (int x = number.X.Value, y = number.Y.Value; x > 0; --x)
                 {
-                    MoveX(number, x, y, x - 1);
+                    if (!MoveX(number, x, y, x - 1)) break;
                 }
             }
             NextRound();
@@ -86,7 +100,7 @@ namespace ViewModels
             {
                 for (int y = number.Y.Value, x = number.X.Value; y > 0; --y)
                 {
-                    MoveY(number, x, y, y - 1);
+                    if (!MoveY(number, x, y, y - 1)) break;
                 }
             }
             NextRound();
@@ -99,40 +113,50 @@ namespace ViewModels
             {
                 for (int y = number.Y.Value, x = number.X.Value; y < grid.GetLength(1) - 1; ++y)
                 {
-                    MoveY(number, x, y, y + 1);
+                    if (!MoveY(number, x, y, y + 1)) break;
                 }
             }
             NextRound();
         }
 
-        private void MoveX(NumberViewModel number, int x, int y, int newX)
+        private bool MoveX(NumberViewModel number, int x, int y, int newX)
         {
             if (grid[newX, y] == null)
             {
                 grid[newX, y] = number;
                 grid[x, y] = null;
                 number.X.Value = newX;
+                moved = true;
+                return true;
             }
-            else if (grid[newX, y].Index.Value == number.Index.Value && !grid[newX, y].Merged)
+            if (grid[newX, y].Index.Value == number.Index.Value && !grid[newX, y].Merged)
             {
                 RemoveNumber(number);
                 ++grid[newX, y].Index.Value;
+                moved = true;
+                return true;
             }
+            return false;
         }
 
-        private void MoveY(NumberViewModel number, int x, int y, int newY)
+        private bool MoveY(NumberViewModel number, int x, int y, int newY)
         {
             if (grid[x, newY] == null)
             {
                 grid[x, newY] = number;
                 grid[x, y] = null;
                 number.Y.Value = newY;
+                moved = true;
+                return true;
             }
-            else if (grid[x, newY].Index.Value == number.Index.Value && !grid[x, newY].Merged)
+            if (grid[x, newY].Index.Value == number.Index.Value && !grid[x, newY].Merged)
             {
                 RemoveNumber(number);
                 ++grid[x, newY].Index.Value;
+                moved = true;
+                return true;
             }
+            return false;
         }
     }
 }

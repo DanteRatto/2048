@@ -14,7 +14,8 @@ namespace ViewModels
             disposable = current.Score.Subscribe(x => { if (x > best.Score.Value) best.Score.Value = x; });
             foreach (var number in grid.Numbers)
             {
-                disposable = Disposable.Combine(disposable, number.Index.Subscribe(x => { if (number.Visible.Value) current.Score.Value += number.Value; }));
+                // Skip(1) to ignore initial index
+                disposable = Disposable.Combine(disposable, number.Index.Skip(1).Subscribe(x => { if (number.Visible.Value) current.Score.Value += number.Value; }));
             }
         }
 

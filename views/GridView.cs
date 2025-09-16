@@ -21,7 +21,6 @@ namespace Views
                 for (var x = 0; x < grid.GetLength(1); ++x, ++i)
                 {
                     grid[x, y] = gridContainer.GetChild<Control>(i).Position;
-                    GD.Print(gridContainer.GetChild<Control>(i).Name + " " + grid[x, y]);
                 }
             }
             var numbers = new NumberViewModel[grid.Length];
