@@ -7,7 +7,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_llu72"]
 bg_color = Color(0, 0, 0, 0.5882353)
 
-[node name="PopUp" type="PanelContainer" node_paths=PackedStringArray("Button", "prompt")]
+[node name="PopUp" type="PanelContainer" node_paths=PackedStringArray("button", "prompt")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,7 +16,7 @@ grow_vertical = 2
 theme = ExtResource("1_llu72")
 theme_override_styles/panel = SubResource("StyleBoxFlat_llu72")
 script = ExtResource("2_mta6n")
-Button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Button")
+button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Button")
 prompt = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Label")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]

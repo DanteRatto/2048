@@ -7,13 +7,26 @@ namespace Views;
 
 public abstract partial class View<TViewModel> : Control where TViewModel : ViewModel
 {
-    public TViewModel ViewModel { get; protected set; }
+    public TViewModel ViewModel
+    {
+        get
+        {
+            if (viewModel == null) Initialize();
+            return viewModel;
+        }
+
+        protected set => viewModel = value;
+    }
+    private TViewModel viewModel;
 
     protected IDisposable disposable;
+
+    protected abstract void Initialize();
 
     public override void _Ready()
     {
         base._Ready();
+        if (viewModel == null) Initialize();
         DelayAFrame();
     }
 

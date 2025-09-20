@@ -6,22 +6,22 @@ namespace Views;
 
 public partial class PopUpView : View<PopUpViewModel>
 {
-    [Export] public Button Button { get; private set; }
+    [Export] private GridView gridView;
+    [Export] private Button button;
     [Export] private Label prompt;
 
-    public override void _Ready() // wait a frame so view models can be set
+    protected override void Initialize()
     {
-        base._Ready();
-        disposable = disposable = Disposable.Combine(ViewModel = new PopUpViewModel(),
+        disposable = disposable = Disposable.Combine(ViewModel = new PopUpViewModel(gridView.ViewModel.Reset, gridView.ViewModel.Won, gridView.ViewModel.Lost),
             ViewModel.Visible.Subscribe(SetVisible),
             ViewModel.Prompt.SubscribeToLabel(prompt),
-            ViewModel.ButtonText.Subscribe(Button.SetText));
-        Button.Pressed += ViewModel.Hide;
+            ViewModel.ButtonText.Subscribe(button.SetText));
+        button.Pressed += ViewModel.Hide;
     }
 
     public override void _ExitTree()
     {
         base._ExitTree();
-        Button.Pressed -= ViewModel.Hide;
+        button.Pressed -= ViewModel.Hide;
     }
 }

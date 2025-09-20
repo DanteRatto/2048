@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://77gx7gs1m0pq"]
 
-[ext_resource type="Script" uid="uid://bsv7hbwyy7gg" path="res://views/ScoreView.cs" id="1_8m000"]
+[ext_resource type="Script" uid="uid://b8n0mbkjeuasf" path="res://views/CurrentScoreView.cs" id="1_8m000"]
 [ext_resource type="Theme" uid="uid://cww8g0jmy32fi" path="res://themes/theme.tres" id="2_2rp2u"]
 [ext_resource type="FontFile" uid="uid://d2xai7ksgjqsw" path="res://fonts/ClearSans-Bold.ttf" id="3_ch12i"]
 
@@ -13,7 +13,6 @@ size_flags_horizontal = 6
 size_flags_vertical = 6
 script = ExtResource("1_8m000")
 labels = [NodePath("MarginContainer/Panel/VBoxContainer/CenterContainer/HBoxContainer/Digit0"), NodePath("MarginContainer/Panel/VBoxContainer/CenterContainer/HBoxContainer/Digit1"), NodePath("MarginContainer/Panel/VBoxContainer/CenterContainer/HBoxContainer/Digit2"), NodePath("MarginContainer/Panel/VBoxContainer/CenterContainer/HBoxContainer/Digit3"), NodePath("MarginContainer/Panel/VBoxContainer/CenterContainer/HBoxContainer/Digit4"), NodePath("MarginContainer/Panel/VBoxContainer/CenterContainer/HBoxContainer/Digit5"), NodePath("MarginContainer/Panel/VBoxContainer/CenterContainer/HBoxContainer/Digit6")]
-key = "current"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

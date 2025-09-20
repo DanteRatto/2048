@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://byu6o8m2s77p1"]
+[gd_scene load_steps=3 format=3 uid="uid://byu6o8m2s77p1"]
 
 [ext_resource type="PackedScene" uid="uid://77gx7gs1m0pq" path="res://nodes/score_panel.tscn" id="2_7ct75"]
+[ext_resource type="Script" uid="uid://ca4fq8qv3jpc0" path="res://views/BestScoreView.cs" id="2_nt2sp"]
 
 [node name="Score_Panels" type="HBoxContainer"]
 offset_left = -318.0
@@ -14,9 +15,10 @@ theme_override_constants/separation = 30
 [node name="Score_Panel" parent="." instance=ExtResource("2_7ct75")]
 layout_mode = 2
 
-[node name="Best_Panel" parent="." instance=ExtResource("2_7ct75")]
+[node name="Best_Panel" parent="." node_paths=PackedStringArray("current") instance=ExtResource("2_7ct75")]
 layout_mode = 2
-key = "best"
+script = ExtResource("2_nt2sp")
+current = NodePath("../Score_Panel")
 
 [node name="Label" parent="Best_Panel/MarginContainer/Panel/VBoxContainer" index="0"]
 text = "best"
