@@ -1,38 +1,27 @@
 using Godot;
-using R3;
 using System.Collections.Generic;
-using ViewModels;
+using Utilities;
+using ViewModels.Score;
 
-namespace Views;
+namespace Views.Score;
 
-public partial class ScoreView : View<ScoreViewModel>
+public abstract partial class ScoreView : View<ScoreViewModel>
 {
     [Export] private Label[] labels;
-    [Export] private string key;
 
-    private const string saveFile = "user://scores.cfg";
+    protected abstract string Key { get; }
+
+    private const string saveFile = "user://save.cfg";
     private const string section = "score";
 
     private static readonly ConfigFile configFile = new();
     private static readonly IReadOnlyList<string> numberTexts = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-    public override void _Ready()
-    {
-        base._Ready();
-        disposable = Disposable.Combine(
-            ViewModel = new ScoreViewModel(configFile.Load(saveFile) == Error.Ok && configFile.HasSectionKey(section, key) ? (int)configFile.GetValue(section, key) : 0),
-            ViewModel.Score.Subscribe(x =>
-            {
-                SetScoreText(x);
-                configFile.SetValue(section, key, x);
-            }));
-    }
-
     public override void _ExitTree()
     {
         base._ExitTree();
+        configFile.SetAndSave(saveFile, section, Key, ViewModel.Score.Value);
         disposable?.Dispose();
-        configFile.Save(saveFile);
     }
 
     public override void _Notification(int what)
@@ -42,7 +31,9 @@ public partial class ScoreView : View<ScoreViewModel>
         base._Notification(what);
     }
 
-    private void SetScoreText(int score)
+    protected int LoadScore() => configFile.LoadInt(saveFile, section, Key);
+
+    protected void SetScoreText(int score)
     {
         for (var i = 0; i < labels.Length; ++i)
         {

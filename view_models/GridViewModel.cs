@@ -22,7 +22,6 @@ public class GridViewModel : ViewModel
         Numbers = numbers;
         GetRandom = getRandom;
         foreach (var number in numbers) inactiveNumbers.Push(number);
-        for (var i = 0; i < 2; ++i) AddNumber(); // add 2 numbers to start
     }
 
     private void AddNumber()
@@ -49,6 +48,11 @@ public class GridViewModel : ViewModel
 
     private void RemoveNumber(int x, int y) => RemoveNumber(grid[x, y]);
 
+    public void Start() // add 2 numbers to start
+    {
+        for (var i = 0; i < 2; ++i) AddNumber();
+    }
+
     private void NextRound()
     {
         if (!moved) return;
@@ -65,7 +69,7 @@ public class GridViewModel : ViewModel
         Won.Value = false;
         moved = false;
         foreach (var number in grid) if (number != null) RemoveNumber(number);
-        for (var i = 0; i < 2; ++i) AddNumber();
+        Start();
     }
 
     public void Right()

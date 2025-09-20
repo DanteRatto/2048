@@ -12,31 +12,35 @@ public partial class GridView : View<GridViewModel>
 
     private static RandomNumberGenerator random = new();
 
-    protected override void _LateReady() // wait a frame so GridContainer can set positions of the tiles
+    private readonly Vector2[,] positions = new Vector2[4, 4];
+
+    protected override void Initialize()
     {
-        base._LateReady();
-        var grid = new Vector2[4, 4];
-        for (int y = 0, i = 0; y < grid.GetLength(0); ++y)
-        {
-            for (var x = 0; x < grid.GetLength(1); ++x, ++i)
-            {
-                grid[x, y] = gridContainer.GetChild<Control>(i).Position;
-            }
-        }
-        var numbers = new NumberViewModel[grid.Length];
+        var numbers = new NumberViewModel[positions.Length];
         for (var i = 0; i < numbers.Length; ++i)
         {
-            var numberViewModel = new NumberViewModel(() => random.RandiRange(0, 9) < 9 ? 0 : 1);
             var numberView = number.Instantiate<NumberView>();
             numbersContainer.AddChild(numberView);
-            numberView.SetViewModel(numberViewModel);
             numbers[i] = numberView.ViewModel;
-            var activeSub = numberViewModel.Visible.Subscribe(numberView.SetVisible);
-            var xSub = numberViewModel.X.Subscribe(x => numberView.Position = grid[x, numberViewModel.Y.Value]);
-            var ySub = numberViewModel.Y.Subscribe(y => numberView.Position = grid[numberViewModel.X.Value, y]);
+            var activeSub = numberView.ViewModel.Visible.Subscribe(numberView.SetVisible);
+            var xSub = numberView.ViewModel.X.Subscribe(x => numberView.Position = positions[x, numberView.ViewModel.Y.Value]);
+            var ySub = numberView.ViewModel.Y.Subscribe(y => numberView.Position = positions[numberView.ViewModel.X.Value, y]);
             disposable = disposable != null ? Disposable.Combine(disposable, activeSub, xSub, ySub) : Disposable.Combine(activeSub, xSub, ySub);
         }
         disposable = Disposable.Combine(disposable, ViewModel = new GridViewModel(numbers, x => random.RandiRange(0, x)));
+    }
+
+    protected override void _LateReady() // wait a frame so GridContainer can set positions of the tiles
+    {
+        base._LateReady();
+        for (int y = 0, i = 0; y < positions.GetLength(0); ++y)
+        {
+            for (var x = 0; x < positions.GetLength(1); ++x, ++i)
+            {
+                positions[x, y] = gridContainer.GetChild<Control>(i).Position;
+            }
+        }
+        ViewModel.Start();
     }
 
     public override void _Input(InputEvent @event)
