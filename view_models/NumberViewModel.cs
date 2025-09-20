@@ -65,11 +65,13 @@ public class NumberViewModel : ViewModel
         });
     }
 
-    public void SetActive(int x, int y)
+    public void SetActive(int x, int y, int index)
     {
-        Index.Value = GetRandomIndex();
+        Index.Value = index;
         X.Value = x;
         Y.Value = y;
         Visible.Value = true;
     }
+
+    public void SetActive(int x, int y) => SetActive(x, y, GetRandomIndex());
 }

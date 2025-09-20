@@ -12,7 +12,7 @@ public partial class NumberView : View<NumberViewModel>
     [Export] private StyleBoxFlat styleBox;
     [Export] private Label label;
 
-    private static RandomNumberGenerator random = new();
+    private static readonly RandomNumberGenerator random = new();
 
     protected override void Initialize()
     {

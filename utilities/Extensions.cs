@@ -6,19 +6,13 @@ public static class Extensions
 {
     public static Color ToColor(this (int r, int g, int b) x) => new Color(x.r / 255f, x.g / 255f, x.b / 255f);
 
-    public static void SetAndSave(this ConfigFile configFile, string saveFile, string section, string key, Variant value)
+    private static Variant LoadVariant(this ConfigFile configFile, string section, string key, Variant defaultValue = default)
     {
-        configFile.SetValue(section, key, value);
-        configFile.Save(saveFile);
+        return configFile.HasSectionKey(section, key) ? configFile.GetValue(section, key) : defaultValue;
     }
 
-    private static Variant LoadVariant(this ConfigFile configFile, string saveFile, string section, string key, Variant defaultValue = default)
+    public static int LoadInt(this ConfigFile configFile, string section, string key, int defaultValue = 0)
     {
-        return configFile.Load(saveFile) == Error.Ok && configFile.HasSectionKey(section, key) ? configFile.GetValue(section, key) : defaultValue;
-    }
-
-    public static int LoadInt(this ConfigFile configFile, string saveFile, string section, string key, int defaultValue = 0)
-    {
-        return (int)configFile.LoadVariant(saveFile, section, key, defaultValue);
+        return (int)configFile.LoadVariant(section, key, defaultValue);
     }
 }
