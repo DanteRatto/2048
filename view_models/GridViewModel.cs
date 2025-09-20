@@ -161,7 +161,6 @@ public class GridViewModel : ViewModel
     private bool CheckLost()
     {
         if (inactiveNumbers.Count > 0) return false;
-
         for (var y = 1; y < grid.GetLength(0); ++y)
         {
             for (var x = 1; x < grid.GetLength(1); ++x)
