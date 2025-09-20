@@ -40,6 +40,7 @@ public partial class GridView : View<GridViewModel>
                 positions[x, y] = gridContainer.GetChild<Control>(i).Position;
             }
         }
+        ViewModel.Start();
     }
 
     public override void _Input(InputEvent @event)
