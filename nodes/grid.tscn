@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://q5r5auwioki5" path="res://views/GridView.cs" id="1_k6ug4"]
 [ext_resource type="Theme" uid="uid://cww8g0jmy32fi" path="res://themes/theme.tres" id="1_n8wtn"]
 [ext_resource type="PackedScene" uid="uid://crsc1jgw5vx8o" path="res://nodes/tile.tscn" id="2_2j66o"]
-[ext_resource type="PackedScene" uid="uid://cp8kbmg8tliw6" path="res://nodes/Number.tscn" id="3_yqcl4"]
+[ext_resource type="PackedScene" uid="uid://cp8kbmg8tliw6" path="res://nodes/number.tscn" id="3_yqcl4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fiavs"]
 bg_color = Color(0.733333, 0.678431, 0.627451, 1)

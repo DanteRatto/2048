@@ -6,7 +6,8 @@
 
 [node name="Score_Panel" type="PanelContainer" node_paths=PackedStringArray("labels")]
 custom_minimum_size = Vector2(144, 0)
-offset_right = 144.0
+offset_left = 1.0
+offset_right = 145.0
 offset_bottom = 134.0
 size_flags_horizontal = 6
 size_flags_vertical = 6

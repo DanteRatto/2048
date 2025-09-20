@@ -3,39 +3,38 @@ using System;
 using System.Threading.Tasks;
 using ViewModels;
 
-namespace Views
+namespace Views;
+
+public abstract partial class View<TViewModel> : Control where TViewModel : ViewModel
 {
-    public abstract partial class View<TViewModel> : Control where TViewModel : ViewModel
+    public TViewModel ViewModel { get; protected set; }
+
+    protected IDisposable disposable;
+
+    public override void _Ready()
     {
-        public TViewModel ViewModel { get; protected set; }
+        base._Ready();
+        DelayAFrame();
+    }
 
-        protected IDisposable disposable;
-
-        public override void _Ready()
+    private async void DelayAFrame()
+    {
+        try
         {
-            base._Ready();
-            DelayAFrame();
+            await Task.Yield();
+            _LateReady();
         }
-
-        private async void DelayAFrame()
+        catch (Exception e)
         {
-            try
-            {
-                await Task.Yield();
-                _LateReady();
-            }
-            catch (Exception e)
-            {
-                GD.PrintErr(e);
-            }
+            GD.PrintErr(e);
         }
+    }
 
-        protected virtual void _LateReady() { }
+    protected virtual void _LateReady() { }
 
-        public override void _ExitTree()
-        {
-            base._ExitTree();
-            disposable?.Dispose();
-        }
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        disposable?.Dispose();
     }
 }
