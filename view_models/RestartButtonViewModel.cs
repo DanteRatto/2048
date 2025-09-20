@@ -1,22 +1,21 @@
 using System;
-using ViewModels.Score;
 
 namespace ViewModels;
 
 public class RestartButtonViewModel : ViewModel
 {
-    private readonly Action ResetGrid;
-    private readonly ScoreViewModel current;
+    private readonly Action resetGrid;
+    private readonly Action resetScore;
 
-    public RestartButtonViewModel(Action resetGrid, ScoreViewModel current)
+    public RestartButtonViewModel(Action resetGrid, Action resetScore)
     {
-        ResetGrid = resetGrid;
-        this.current = current;
+        this.resetGrid = resetGrid;
+        this.resetScore = resetScore;
     }
 
     public void Restart()
     {
-        ResetGrid.Invoke();
-        current.Score.Value = 0;
+        resetGrid.Invoke();
+        resetScore.Invoke();
     }
 }

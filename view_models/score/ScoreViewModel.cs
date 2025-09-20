@@ -10,4 +10,6 @@ public abstract class ScoreViewModel : ViewModel
     {
         Score.Value = startingScore;
     }
+
+    public void Reset() => Score.Value = 0;
 }

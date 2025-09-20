@@ -54,17 +54,18 @@ offset_top = 145.0
 offset_right = -30.0
 offset_bottom = 279.0
 
-[node name="Score_Panel" parent="Score_Panels" index="0" node_paths=PackedStringArray("grid", "saveManager")]
-grid = NodePath("../../CenterContainer/Grid")
+[node name="Score_Panel" parent="Score_Panels" index="0" node_paths=PackedStringArray("gridView", "saveManager")]
+gridView = NodePath("../../CenterContainer/Grid")
 saveManager = NodePath("../../SaveManager")
 
 [node name="Best_Panel" parent="Score_Panels" index="1" node_paths=PackedStringArray("saveManager")]
 saveManager = NodePath("../../SaveManager")
 
-[node name="PopUp" parent="." node_paths=PackedStringArray("gridView") instance=ExtResource("3_o6xl0")]
+[node name="PopUp" parent="." node_paths=PackedStringArray("gridView", "restartButtonView") instance=ExtResource("3_o6xl0")]
 visible = false
 layout_mode = 1
 gridView = NodePath("../CenterContainer/Grid")
+restartButtonView = NodePath("../Restart_Button")
 
 [node name="SaveManager" parent="." instance=ExtResource("6_tefeu")]
 layout_mode = 0

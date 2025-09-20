@@ -11,11 +11,11 @@ public class PopUpViewModel : ViewModel
 
     private ReadOnlyReactiveProperty<bool> Lost { get; }
 
-    private readonly Action Restart;
+    private readonly Action restart;
 
     public PopUpViewModel(Action restart, Observable<bool> won, Observable<bool> lost)
     {
-        Restart = restart;
+        this.restart = restart;
         disposable = Disposable.Combine(Lost = lost.ToReadOnlyReactiveProperty(),
             won.Subscribe(x =>
             {
@@ -40,7 +40,7 @@ public class PopUpViewModel : ViewModel
     public void Hide()
     {
         if (!Lost.CurrentValue) return;
-        Restart.Invoke();
+        restart.Invoke();
         Visible.Value = false;
     }
 }

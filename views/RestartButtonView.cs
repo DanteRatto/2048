@@ -12,7 +12,7 @@ public partial class RestartButtonView : View<RestartButtonViewModel>
 
     protected override void Initialize()
     {
-        disposable = ViewModel = new RestartButtonViewModel(gridView.ViewModel.Reset, scoreView.ViewModel);
+        disposable = ViewModel = new RestartButtonViewModel(gridView.ViewModel.Reset, scoreView.ViewModel.Reset);
         button.Pressed += ViewModel.Restart;
     }
 
