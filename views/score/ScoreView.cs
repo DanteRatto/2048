@@ -7,31 +7,25 @@ namespace Views.Score;
 
 public abstract partial class ScoreView : View<ScoreViewModel>
 {
+    [Export] private SaveManager saveManager;
     [Export] private Label[] labels;
 
     protected abstract string Key { get; }
 
-    private const string saveFile = "user://save.cfg";
     private const string section = "score";
 
-    private static readonly ConfigFile configFile = new();
     private static readonly IReadOnlyList<string> numberTexts = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-
-    public override void _ExitTree()
-    {
-        base._ExitTree();
-        configFile.SetAndSave(saveFile, section, Key, ViewModel.Score.Value);
-        disposable?.Dispose();
-    }
 
     public override void _Notification(int what)
     {
-        if (what == NotificationApplicationFocusOut || what == NotificationWMWindowFocusOut || what == NotificationWMCloseRequest) configFile.Save(saveFile);
-        if (what == NotificationWMCloseRequest) GetTree().Quit();
+        if (what == NotificationApplicationFocusOut || what == NotificationWMWindowFocusOut || what == NotificationWMCloseRequest)
+        {
+            saveManager.ConfigFile.SetValue(section, Key, ViewModel.Score.Value);
+        }
         base._Notification(what);
     }
 
-    protected int LoadScore() => configFile.LoadInt(saveFile, section, Key);
+    protected int LoadScore() => saveManager.ConfigFile.LoadInt(section, Key);
 
     protected void SetScoreText(int score)
     {

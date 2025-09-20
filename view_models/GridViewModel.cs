@@ -11,6 +11,7 @@ public class GridViewModel : ViewModel
     public ReactiveProperty<bool> Won { get; } = new();
 
     public readonly IReadOnlyList<NumberViewModel> Numbers;
+
     private readonly NumberViewModel[,] grid = new NumberViewModel[4, 4];
     private readonly Stack<NumberViewModel> inactiveNumbers = new();
     private readonly Func<int, int> GetRandom;
@@ -37,6 +38,13 @@ public class GridViewModel : ViewModel
                 return;
             }
         }
+    }
+
+    public void AddNumber(int x, int y, int index)
+    {
+        var number = inactiveNumbers.Pop();
+        grid[x, y] = number;
+        number.SetActive(x, y, index);
     }
 
     private void RemoveNumber(NumberViewModel number)

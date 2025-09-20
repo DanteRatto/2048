@@ -1,16 +1,21 @@
 using Godot;
 using R3;
+using Utilities;
 using ViewModels;
+using ZLinq;
 
 namespace Views;
 
 public partial class GridView : View<GridViewModel>
 {
+    [Export] private SaveManager saveManager;
     [Export] private PackedScene number;
     [Export] private GridContainer gridContainer;
     [Export] private Control numbersContainer;
 
-    private static RandomNumberGenerator random = new();
+    private const string section = "grid";
+
+    private static readonly RandomNumberGenerator random = new();
 
     private readonly Vector2[,] positions = new Vector2[4, 4];
 
@@ -40,7 +45,21 @@ public partial class GridView : View<GridViewModel>
                 positions[x, y] = gridContainer.GetChild<Control>(i).Position;
             }
         }
-        ViewModel.Start();
+        if (saveManager.ConfigFile.HasSection(section))
+        {
+            foreach (var key in saveManager.ConfigFile.GetSectionKeys(section))
+            {
+                var split = key.Split(',');
+                var x = int.Parse(split[0]);
+                var y = int.Parse(split[1]);
+                var index = saveManager.ConfigFile.LoadInt(section, key);
+                ViewModel.AddNumber(x, y, index);
+            }
+        }
+        else
+        {
+            ViewModel.Start();
+        }
     }
 
     public override void _Input(InputEvent @event)
@@ -50,5 +69,18 @@ public partial class GridView : View<GridViewModel>
         else if (@event.IsActionPressed("ui_left")) ViewModel.Left();
         else if (@event.IsActionPressed("ui_down")) ViewModel.Down();
         else if (@event.IsActionPressed("ui_right")) ViewModel.Right();
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what == NotificationApplicationFocusOut || what == NotificationWMWindowFocusOut || what == NotificationWMCloseRequest)
+        {
+            saveManager.ConfigFile.EraseSection(section); // clear old data
+            foreach (var num in ViewModel.Numbers.AsValueEnumerable().Where(x => x.Visible.Value))
+            {
+                saveManager.ConfigFile.SetValue(section, $"{num.X.Value},{num.Y.Value}", num.Index.Value);
+            }
+        }
+        base._Notification(what);
     }
 }
