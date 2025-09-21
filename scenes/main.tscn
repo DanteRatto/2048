@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2aen55vds71n"]
+[gd_scene load_steps=8 format=3 uid="uid://b2aen55vds71n"]
 
 [ext_resource type="PackedScene" uid="uid://c5ssof6saja4l" path="res://nodes/grid.tscn" id="1_o5qli"]
 [ext_resource type="FontFile" uid="uid://d2xai7ksgjqsw" path="res://fonts/ClearSans-Bold.ttf" id="2_jyhfs"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cnltdn12cflrh" path="res://nodes/restart_button.tscn" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://byu6o8m2s77p1" path="res://nodes/score_panels.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://mw86lxmcpqn" path="res://nodes/save_manager.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://b3tqxkrihyh6f" path="res://nodes/swipe_detector.tscn" id="7_o6xl0"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -68,7 +69,8 @@ gridView = NodePath("../CenterContainer/Grid")
 restartButtonView = NodePath("../Restart_Button")
 
 [node name="SaveManager" parent="." instance=ExtResource("6_tefeu")]
-layout_mode = 0
+
+[node name="SwipeDetector" parent="." instance=ExtResource("7_o6xl0")]
 
 [editable path="Score_Panels"]
 [editable path="Score_Panels/Best_Panel"]
